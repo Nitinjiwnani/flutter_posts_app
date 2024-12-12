@@ -10,6 +10,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   PostsBloc() : super(const PostsState()) {
     on<Postsfetch>(_fetchPosts);
     on<PostsFetchDetails>(_fetchPostsDetails);
+    on<MarkPostAsRead>(_markPostAsRead);
   }
 
   Future<void> _fetchPosts(Postsfetch event, Emitter<PostsState> emit) async {
@@ -28,19 +29,24 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     }
   }
 
-Future<void> _fetchPostsDetails(PostsFetchDetails event, Emitter<PostsState> emit) async {
-  try {
-    final post = await postsRepository.fetchPostDetail(event.postId);
-    emit(state.copywith(
-      postsDetail: post,
-      message: 'Post detail fetched successfully',
-    ));
-  } catch (e) {
-    emit(state.copywith(
-      postsStatus: PostsStatus.failure,
-      message: e.toString(),
-    ));
+  Future<void> _fetchPostsDetails(
+      PostsFetchDetails event, Emitter<PostsState> emit) async {
+    try {
+      final post = await postsRepository.fetchPostDetail(event.postId);
+      emit(state.copywith(
+        postsDetail: post,
+        message: 'Post detail fetched successfully',
+      ));
+    } catch (e) {
+      emit(state.copywith(
+        postsStatus: PostsStatus.failure,
+        message: e.toString(),
+      ));
+    }
   }
-}
 
+  void _markPostAsRead(MarkPostAsRead event, Emitter<PostsState> emit) {
+    final readPosts = Set<int>.from(state.readPosts)..add(event.postId);
+    emit(state.copywith(readPosts: readPosts));
+  }
 }

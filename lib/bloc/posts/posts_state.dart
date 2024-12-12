@@ -7,12 +7,14 @@ class PostsState extends Equatable {
   final List<PostsModel> postsList;
   final PostsModel? postsDetail;
   final String message;
+  final Set<int> readPosts;
 
   const PostsState({
     this.postsStatus = PostsStatus.loading,
     this.postsList = const <PostsModel>[],
     this.postsDetail,
     this.message = '',
+    this.readPosts = const {},
   });
 
   PostsState copywith({
@@ -20,18 +22,20 @@ class PostsState extends Equatable {
     List<PostsModel>? postsList,
     PostsModel? postsDetail,
     String? message,
+    Set<int>? readPosts,
   }) {
     return PostsState(
       postsStatus: postsStatus ?? this.postsStatus,
       postsList: postsList ?? this.postsList,
       postsDetail: postsDetail ?? this.postsDetail,
       message: message ?? this.message,
+      readPosts: readPosts ?? this.readPosts,
     );
   }
 
   @override
-  List<Object?> get props => [postsStatus, postsList, postsDetail, message];
+  List<Object?> get props =>
+      [postsStatus, postsList, postsDetail, message, readPosts];
 }
-
 
 final class PostsInitial extends PostsState {}

@@ -40,14 +40,34 @@ class _PostsScreenState extends State<PostsScreen> {
                   final items = state.postsList[index];
                   return GestureDetector(
                     onTap: () {
+                      context.read<PostsBloc>().add(MarkPostAsRead(items.id!));
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return PostsDetailScreen(postId: items.id!);
                       }));
                     },
                     child: ListTile(
-                      title: Text(items.title.toString()),
-                      subtitle: Text(items.body.toString()),
+                      tileColor: state.readPosts.contains(items.id)
+                          ? Colors.white
+                          : Colors.yellow.shade100,
+                      title: Text('${items.id}. ${items.title}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(items.body.toString()),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.timer, size: 16),
+                                SizedBox(width: 4),
+                                Text('20s'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
