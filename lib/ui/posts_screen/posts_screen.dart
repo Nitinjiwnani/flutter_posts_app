@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_app/bloc/posts/posts_bloc.dart';
 import 'package:flutter_posts_app/bloc/posts/posts_event.dart';
 import 'package:flutter_posts_app/bloc/posts/posts_state.dart';
-import 'package:flutter_posts_app/ui/posts_screen/posts_detail_screen.dart';
+import 'package:flutter_posts_app/ui/post_detail_screen/posts_detail_screen.dart';
 import 'package:flutter_posts_app/utils/enums.dart';
 
 class PostsScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class _PostsScreenState extends State<PostsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posts Screen'),
+        title: const Text('Posts Screen'),
       ),
       body: BlocBuilder<PostsBloc, PostsState>(
         builder: (context, state) {
@@ -60,9 +60,9 @@ class _PostsScreenState extends State<PostsScreen> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.timer, size: 16),
-                                SizedBox(width: 4),
-                                Text('20s'),
+                                const Icon(Icons.timer, size: 16),
+                                const SizedBox(width: 4),
+                                const Text('20s'),
                               ],
                             ),
                           ),
